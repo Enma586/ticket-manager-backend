@@ -21,7 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleInit() {
     await this.pool.query('SELECT 1');
-    this.logger.log('Base de datos conectada con éxito (Prisma 7 + pg Pool)');
+    this.logger.log('Base de datos conectada con éxito');
   }
 
   async onModuleDestroy() {
