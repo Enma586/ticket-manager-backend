@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe} from '@nestjs/common';  
-
+import { HttpExeptionFilter } from './common/filters/http-exception.filter';
 async function bootstrap() {
 
   process.env.TZ = 'UTC';
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new HttpExeptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
