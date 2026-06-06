@@ -4,6 +4,7 @@ import { ValidationPipe} from '@nestjs/common';
 import { HttpExeptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'; 
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
+import { GlobalValidationPipe } from './common/pipes/validation.pipe';
 async function bootstrap() {
 
   process.env.TZ = 'UTC';
@@ -12,16 +13,7 @@ async function bootstrap() {
  
   app.useGlobalFilters(new HttpExeptionFilter());
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      transformOptions : {
-        enableImplicitConversion: true
-      }
-    })
-  )  
+  app.useGlobalPipes(new GlobalValidationPipe());
   await app.listen(process.env.PORT ?? 4000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
