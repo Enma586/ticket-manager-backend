@@ -1,5 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { PrismaModule } from './infra/prisma.module'
+import { PrismaModule } from './infra/prisma/prisma.module';
+import { WebsocketsModule } from './infra/websockets/websockets.module';
+import {RedisModule} from './infra/redis/redis.module';
 import { ConfigModule } from '@nestjs/config';
 import {LoggerMiddleware} from './common/middlewares/logger.middleware'
 @Module({
@@ -7,7 +9,9 @@ import {LoggerMiddleware} from './common/middlewares/logger.middleware'
     ConfigModule.forRoot({
       isGlobal : true 
     }),
-    PrismaModule
+    PrismaModule,
+    WebsocketsModule,
+    RedisModule
   ],
   controllers: [],
   providers: [],

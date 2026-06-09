@@ -9,7 +9,7 @@ export class TimeoutInterceptor implements NestInterceptor {
       timeout(5000), 
       catchError(err => {
         if (err instanceof TimeoutError) {
-          return throwError(() => new RequestTimeoutException('La petición tardó demasiado tiempo en procesarse.'));
+          return throwError(() => new RequestTimeoutException('The request took too long and has been timed out.'));
         }
         return throwError(() => err);
       }),
