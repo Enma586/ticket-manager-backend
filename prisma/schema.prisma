@@ -107,3 +107,12 @@ model AuditLog {
   actorId   String
   actor     User     @relation(fields: [actorId], references: [id])
 }
+
+model SystemConfig {
+  id                   Int      @id @default(1) // Siempre será 1
+  maintenanceMode      Boolean  @default(false)
+  backupFrequencyDays  Int      @default(7)
+  autoAssignTickets    Boolean  @default(true)
+  
+  updatedAt            DateTime @updatedAt
+}
