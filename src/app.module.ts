@@ -4,6 +4,9 @@ import { WebsocketsModule } from './infra/websockets/websockets.module';
 import {RedisModule} from './infra/redis/redis.module';
 import { ConfigModule } from '@nestjs/config';
 import {LoggerMiddleware} from './common/middlewares/logger.middleware'
+
+import {UsersModule} from './modules/users/users.module'
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -11,7 +14,9 @@ import {LoggerMiddleware} from './common/middlewares/logger.middleware'
     }),
     PrismaModule,
     WebsocketsModule,
-    RedisModule
+    RedisModule,
+
+    UsersModule,
   ],
   controllers: [],
   providers: [],
