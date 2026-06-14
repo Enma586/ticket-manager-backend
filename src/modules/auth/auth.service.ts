@@ -15,7 +15,7 @@ export class AuthService{
         
     ){}
 
-    async validateUSer(loginDto: LoginDto){
+    async validateUser(loginDto: LoginDto){
         const user = await this.usersService.findByEmail(loginDto.email);
 
         if(!user.isActive) {
