@@ -5,10 +5,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client'
 import { QueryUserDto } from './dto/query-user.dto';
+import { NotificationGateway } from '../../infra/websockets/notification.gateway';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly notificationGateway: NotificationGateway
+    ) { }
 
     async create(createUserDto: CreateUserDto) {
         const existingUser = await this.prisma.user.findUnique({
@@ -30,6 +34,7 @@ export class UsersService {
         });
 
         const { password, ...result } = user;
+        this.notificationGateway.emitEvent('user_created', result);
         return result;
     }
 
@@ -116,7 +121,7 @@ export class UsersService {
             dataToUpdate.password = await bcrypt.hash(dataToUpdate.password, salt);
         }
 
-        return this.prisma.user.update({
+        const updatedUser = await this.prisma.user.update({
             where: { id },
             data: dataToUpdate,
             select: {
@@ -128,14 +133,23 @@ export class UsersService {
             },
         });
 
+        this.notificationGateway.emitEvent('user_updated', updatedUser);
+        return updatedUser;
+
+
+
     }
 
     async remove(id: string) {
         await this.findById(id);
-        return this.prisma.user.update({
+        const deletedUser = await this.prisma.user.update({
             where: { id },
             data: { isActive: false },
             select: { id: true, email: true, isActive: true },
         });
+        
+        this.notificationGateway.emitEvent('user_deleted', deletedUser);
+
+        return deletedUser;
     }
 }
