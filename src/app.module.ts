@@ -2,11 +2,13 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { PrismaModule } from './infra/prisma/prisma.module';
 import { WebsocketsModule } from './infra/websockets/websockets.module';
 import {RedisModule} from './infra/redis/redis.module';
+import {QueuesModule} from './infra/queues/queues.module'
 import { ConfigModule } from '@nestjs/config';
 import {LoggerMiddleware} from './common/middlewares/logger.middleware'
 
 import {UsersModule} from './modules/users/users.module'
 import {AuthModule} from './modules/auth/auth.module'
+
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import {AuthModule} from './modules/auth/auth.module'
     PrismaModule,
     WebsocketsModule,
     RedisModule,
+    QueuesModule,
 
     UsersModule,
     AuthModule
