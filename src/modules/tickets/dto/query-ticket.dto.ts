@@ -1,7 +1,7 @@
 import { IsOptional, IsString, IsEnum, IsInt, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TicketStatus } from './update-ticket.dto';
-import { TicketPriority } from './create-ticket.dto';
+// 1. Extraemos ambos Enums de Prisma
+import { TicketStatus, TicketPriority } from '@prisma/client'; 
 
 export class QueryTicketDto {
   @Type(() => Number)
@@ -20,6 +20,7 @@ export class QueryTicketDto {
   @IsOptional()
   search?: string;
 
+  // 2. Actualizamos las referencias
   @IsEnum(TicketStatus)
   @IsOptional()
   status?: TicketStatus;
@@ -32,4 +33,3 @@ export class QueryTicketDto {
   @IsOptional()
   assignedToId?: string;
 }
-

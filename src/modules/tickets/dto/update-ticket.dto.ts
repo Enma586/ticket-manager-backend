@@ -1,15 +1,11 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateTicketDto } from './create-ticket.dto';
 import { IsEnum, IsOptional, IsInt, IsString } from 'class-validator';
-
-export enum TicketStatus {
-  OPEN = 'OPEN',
-  IN_PROGRESS = 'IN_PROGRESS',
-  RESOLVED = 'RESOLVED',
-  CLOSED = 'CLOSED',
-}
+// 1. Importamos el estado directamente de Prisma
+import { TicketStatus } from '@prisma/client'; 
 
 export class UpdateTicketDto extends PartialType(CreateTicketDto) {
+  // 2. Aplicamos el tipo oficial
   @IsEnum(TicketStatus)
   @IsOptional()
   status?: TicketStatus;
@@ -18,7 +14,6 @@ export class UpdateTicketDto extends PartialType(CreateTicketDto) {
   @IsOptional()
   assignedToId?: string;
 
-  // Clave para el bloqueo optimista
   @IsInt()
   @IsOptional()
   expectedVersion?: number; 
